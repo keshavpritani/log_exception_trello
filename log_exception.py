@@ -23,7 +23,7 @@ ignore_list_name = "Ignore Card List"
 list_id = ""
 ignore_list_id = "612f969406b71889476adc7a"
 
-query = {
+original_query = {
     'key': '6e5c646bcf9f209c9221cd2fd72a18cf',
     'token': '1fd1dce81d58308556244cc30a6554f5e5061a285cef486135e9a19ed31c7f83',
     "fields": ["name"]
@@ -46,6 +46,7 @@ def changeDate():
 
 def createNewList():
     global last_week_id
+    query={}
 
     if(last_week_id != ""):
         print("Deleting", last_week, "list")
@@ -53,7 +54,7 @@ def createNewList():
         response = requests.request(
             "PUT",
             lists_url.format(last_week_id, "closed"),
-            params=query
+            params={original_query | query}
         )
         last_week_id = ""
         del query["value"]
@@ -63,7 +64,7 @@ def createNewList():
     response = requests.request(
         "POST",
         base_list_url,
-        params=query
+        params={original_query | query}
     )
     print("Crearted new List for Current Date")
 
@@ -74,6 +75,7 @@ def createNewList():
     return a['id']
 
 def updateCard(card_id):
+    query={}
 #    print(card_id)
     print("Card for Exception Already Exists")
     # get the card id and update the card description
@@ -81,7 +83,7 @@ def updateCard(card_id):
     response = requests.request(
         "GET",
         base_card_url+"/{}".format(card_id),
-        params=query
+        params={original_query | query}
     )
     a = json.loads(response.text)
     # pp.pprint(a)
@@ -97,7 +99,7 @@ def updateCard(card_id):
     response = requests.request(
         "PUT",
         base_card_url+"/{}".format(card_id),
-        params=query
+        params={original_query | query}
     )
     query["fields"].remove("desc")
     del query["desc"]
@@ -105,6 +107,7 @@ def updateCard(card_id):
 
 def createCard(program_name, exception_name, card_desc, exceptions_list):
     global list_id, ignore_list_id, base_card_url, d, current_date
+    query={}
 
     exception_name = exception_name.strip(" ")
     #print("CREATE CARD CALLED")
@@ -121,7 +124,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
     response = requests.request(
         "GET",
         lists_url.format(ignore_list_id, "cards"),
-        params=query
+        params={original_query | query}
     )
 
     ignore_cards_list = json.loads(response.text)
@@ -146,7 +149,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
     response = requests.request(
         "POST",
         base_card_url,
-        params=query
+        params={original_query | query}
     )
     #print("after")
     if(200 <= response.status_code < 300):
@@ -163,10 +166,11 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
 def fetchIds():
     # print(url)
     global list_id, last_week_id
+    query={}
     response = requests.request(
         "GET",
         url,
-        params=query
+        params={original_query | query}
     )
     a = json.loads(response.text)
     # pp.pprint(a)
@@ -185,7 +189,7 @@ def fetchIds():
     response = requests.request(
         "GET",
         lists_url.format(list_id, "cards"),
-        params=query
+        params={original_query | query}
     )
 
     a = json.loads(response.text)
@@ -199,7 +203,7 @@ def fetchIds():
     response = requests.request(
         "GET",
         lists_url.format(ignore_list_id, "cards"),
-        params=query
+        params={original_query | query}
     )
 
     ignore_cards_list = json.loads(response.text)
@@ -210,11 +214,12 @@ def fetchIds():
 def getBoardAndIgnoreListId():
     # find the board id and ignore list id by querying the api
     global board_id, ignore_list_id
+    query={}
     query["fields"].append("idBoard")
     response = requests.request(
         "GET",
         url,
-        params=query
+        params={original_query | query}
     )
     a = json.loads(response.text)
     print("Board id = ", a[0]['idBoard'])
