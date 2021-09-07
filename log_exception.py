@@ -46,7 +46,7 @@ def changeDate():
 
 def createNewList():
     global last_week_id
-    query={}
+    query={"fields": []}
 
     if(last_week_id != ""):
         print("Deleting", last_week, "list")
@@ -75,7 +75,7 @@ def createNewList():
     return a['id']
 
 def updateCard(card_id):
-    query={}
+    query={"fields": []}
 #    print(card_id)
     print("Card for Exception Already Exists")
     # get the card id and update the card description
@@ -107,7 +107,7 @@ def updateCard(card_id):
 
 def createCard(program_name, exception_name, card_desc, exceptions_list):
     global list_id, ignore_list_id, base_card_url, d, current_date
-    query={}
+    query={"fields": []}
 
     exception_name = exception_name.strip(" ")
     #print("CREATE CARD CALLED")
@@ -166,7 +166,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
 def fetchIds():
     # print(url)
     global list_id, last_week_id
-    query={}
+    query={"fields": []}
     response = requests.request(
         "GET",
         url,
@@ -214,7 +214,7 @@ def fetchIds():
 def getBoardAndIgnoreListId():
     # find the board id and ignore list id by querying the api
     global board_id, ignore_list_id
-    query={}
+    query={"fields": []}
     query["fields"].append("idBoard")
     response = requests.request(
         "GET",
