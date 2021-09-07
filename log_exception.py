@@ -54,7 +54,7 @@ def createNewList():
         response = requests.request(
             "PUT",
             lists_url.format(last_week_id, "closed"),
-            params=original_query | query
+            params={**original_query, **query}
         )
         last_week_id = ""
         del query["value"]
@@ -64,7 +64,7 @@ def createNewList():
     response = requests.request(
         "POST",
         base_list_url,
-        params=original_query | query
+        params={**original_query, **query}
     )
     print("Crearted new List for Current Date")
 
@@ -83,7 +83,7 @@ def updateCard(card_id):
     response = requests.request(
         "GET",
         base_card_url+"/{}".format(card_id),
-        params=original_query | query
+        params={**original_query, **query}
     )
     a = json.loads(response.text)
     # pp.pprint(a)
@@ -99,7 +99,7 @@ def updateCard(card_id):
     response = requests.request(
         "PUT",
         base_card_url+"/{}".format(card_id),
-        params=original_query | query
+        params={**original_query, **query}
     )
     query["fields"].remove("desc")
     del query["desc"]
@@ -124,7 +124,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
     response = requests.request(
         "GET",
         lists_url.format(ignore_list_id, "cards"),
-        params=original_query | query
+        params={**original_query, **query}
     )
 
     ignore_cards_list = json.loads(response.text)
@@ -149,7 +149,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
     response = requests.request(
         "POST",
         base_card_url,
-        params=original_query | query
+        params={**original_query, **query}
     )
     #print("after")
     if(200 <= response.status_code < 300):
@@ -170,7 +170,7 @@ def fetchIds():
     response = requests.request(
         "GET",
         url,
-        params=original_query | query
+        params={**original_query, **query}
     )
     a = json.loads(response.text)
     # pp.pprint(a)
@@ -189,7 +189,7 @@ def fetchIds():
     response = requests.request(
         "GET",
         lists_url.format(list_id, "cards"),
-        params=original_query | query
+        params={**original_query, **query}
     )
 
     a = json.loads(response.text)
@@ -203,7 +203,7 @@ def fetchIds():
     response = requests.request(
         "GET",
         lists_url.format(ignore_list_id, "cards"),
-        params=original_query | query
+        params={**original_query, **query}
     )
 
     ignore_cards_list = json.loads(response.text)
@@ -219,7 +219,7 @@ def getBoardAndIgnoreListId():
     response = requests.request(
         "GET",
         url,
-        params=original_query | query
+        params={**original_query, **query}
     )
     a = json.loads(response.text)
     print("Board id = ", a[0]['idBoard'])
