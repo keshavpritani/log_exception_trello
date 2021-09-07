@@ -2,6 +2,7 @@ import time
 import os
 import log_exception
 import re
+import threading
 from datetime import datetime
 
 # Set the filename and open the file
@@ -56,7 +57,7 @@ while 1:
                     today = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
                     print(today, "- Exception -", exception)
                     #print("DESC -", desc)
-                    log_exception.createCard(program_name, exception, desc ,exceptions_list)
+                    threading.Thread(target=log_exception.createCard, args=(program_name, exception, desc ,exceptions_list))
             # else:
                 # print("Not Found")
     except Exception as e:
