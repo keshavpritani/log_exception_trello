@@ -130,7 +130,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
     ignored_exceptions_list = json.loads(response.text)
 
     for x in ignored_exceptions_list:
-        ignored_exceptions.append(x['name'])
+        ignored_exceptions.add(x['name'])
 
 
     if (all(item in ignored_exceptions for item in exceptions_list)):
@@ -147,7 +147,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
 
     for x in ignored_cards_list:
         if x['name'].find(exception_name) != -1:
-            ignored_cards.append(exception_name)
+            ignored_cards.add(exception_name)
             print("Card Ignored")
             return
 
@@ -222,7 +222,7 @@ def fetchIds():
     ignored_cards_list = json.loads(response.text)
 
     for x in ignored_cards_list:
-        ignored_cards.append(x['name'].split("-")[-1].strip(" "))
+        ignored_cards.add(x['name'].split("-")[-1].strip(" "))
 
     response = requests.request(
         "GET",
@@ -233,7 +233,7 @@ def fetchIds():
     ignored_exceptions_list = json.loads(response.text)
 
     for x in ignored_exceptions_list:
-        ignored_exceptions.append(x['name'])
+        ignored_exceptions.add(x['name'])
 
 
 def getBoardAndIgnoreListId():
