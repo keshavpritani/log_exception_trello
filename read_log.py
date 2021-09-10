@@ -18,6 +18,9 @@ file.seek(get_file_last_pos())
 
 log_type = ("ERROR", "WARN", "INFO", "DEBUG")
 
+def checkException(str):
+    return re.search("exception",str,flags=re.IGNORECASE)
+
 while 1:
     try:
         where = file.tell()
@@ -37,28 +40,27 @@ while 1:
                 index = index+len(str_to_find)
                 index1 = line.find("-", index)
                 exception = line[index:index1]
-                if(exception not in ignored_cards):
-                    desc = line[index1+2:]
-                    flag=False
-                    exceptions_list=set()
-                    if(re.search("exception",line,flags=re.IGNORECASE)):
+                desc = line[index1+2:]
+                flag=False
+                exceptions_list=set()
+                if(checkException(line)):
+                    flag=True
+                while 1:
+                    where = file.tell()
+                    line = file.readline()
+                    if(any(l_type in line for l_type in log_type)):
+                        file.seek(get_file_last_pos() - 10)
+                        break
+                    if(checkException(line)):
+                        line_arr = (re.split('[.() :$]', line))
+                        exceptions_list = exceptions_list.union(set([txt for txt in line_arr if checkException(txt)]))
                         flag=True
-                    while 1:
-                        where = file.tell()
-                        line = file.readline()
-                        if(any(l_type in line for l_type in log_type)):
-                            file.seek(get_file_last_pos() - 10)
-                            break
-                        if(re.search("exception",line,flags=re.IGNORECASE)):
-                            line_arr = (re.split('[.() :$]', line))
-                            exceptions_list = exceptions_list.union(set([match for match in line_arr if re.search("exception",match,flags=re.IGNORECASE)]))
-                            flag=True
-                        desc = desc + line
-                    if flag:
-                        today = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                        print(today, "- Exception -", exception)
-                        #print("DESC -", desc)
-                        threading.Thread(target=log_exception.createCard, args=(program_name, exception, desc ,exceptions_list)).start()
+                    desc = desc + line
+                if flag:
+                    today = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                    print(today, "- Exception -", exception)
+                    #print("DESC -", desc)
+                    threading.Thread(target=log_exception.createCard, args=(program_name, exception, desc ,exceptions_list)).start()
     except Exception as e:
         print("try...catch block")
         print(e)
