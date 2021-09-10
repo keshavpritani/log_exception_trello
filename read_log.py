@@ -16,7 +16,7 @@ def get_file_last_pos():
 
 file.seek(get_file_last_pos())
 
-log_type = ("ERROR", "WARN", "INFO", "DEBUG")
+log_type = (" ERROR ", " WARN ", " INFO ", " DEBUG ")
 
 def checkException(str):
     return re.search("exception",str,flags=re.IGNORECASE)
@@ -31,7 +31,7 @@ while 1:
             time.sleep(0.01)
             file.seek(where)
         else:
-            str_to_find = " ERROR "
+            str_to_find = log_type[0]
             index = line.find(str_to_find)
             #print(line)
             if(index != -1):
@@ -43,7 +43,7 @@ while 1:
                 desc = line[index1+2:]
                 flag=False
                 exceptions_list=set()
-                if(checkException(line)):
+                if(checkException(exception)):
                     flag=True
                 while 1:
                     where = file.tell()
