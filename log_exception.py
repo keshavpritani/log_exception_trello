@@ -2,9 +2,7 @@ import requests
 import json
 # import pprint
 from datetime import date, timedelta
-import threading
 
-lock = threading.Lock()
 # pp = pprint.PrettyPrinter()
 d = ""
 current_date = ""
@@ -104,10 +102,8 @@ def updateCard(card_id):
         base_card_url+"/{}".format(card_id),
         params={**original_query, **query}
     )
-    if(200 <= response.status_code < 300):
-        print("Card's Count Incremented")
-    else:
-        print("Error while Updating Card")
+
+    print("Card's Count Incremented")
 
 
 def createCard(program_name, exception_name, card_desc, exceptions_list):
@@ -157,28 +153,28 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
 
     #print(already_added_cards)
 
-    lock.acquire()
-    if exception_name in already_added_cards:
-        updateCard(already_added_cards[exception_name])
-    else:
-        query={}
-        query["name"] = program_name + " - "  + exception_name
-        query["idList"] = list_id
-        query["desc"] = "Count : 1\n" + "Exceptions - " + ", ".join(exceptions_list) + "\n\n"  + card_desc
-        query["pos"]="top"
-        response = requests.request(
-            "POST",
-            base_card_url,
-            params={**original_query, **query}
-        )
-        #print("after")
-        if(200 <= response.status_code < 300):
-            already_added_cards[exception_name] = json.loads(response.text)['id']
-            print("Created new Exception Card")
-        else:
-            print("Error while Creating Card")
 
-    lock.release()
+    if exception_name in already_added_cards:
+        #print("hello")
+        updateCard(already_added_cards[exception_name])
+        return
+
+    query={}
+    query["name"] = program_name + " - "  + exception_name
+    query["idList"] = list_id
+    query["desc"] = "Count : 1\n" + "Exceptions - " + ", ".join(exceptions_list) + "\n\n"  + card_desc
+    query["pos"]="top"
+    response = requests.request(
+        "POST",
+        base_card_url,
+        params={**original_query, **query}
+    )
+    #print("after")
+    if(200 <= response.status_code < 300):
+        already_added_cards[exception_name] = json.loads(response.text)['id']
+        print("Created new Exception Card")
+    else:
+        print("Error while Creating Card")
 
 
 def fetchIds():
