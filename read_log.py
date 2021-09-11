@@ -2,7 +2,6 @@ import time
 import os
 import log_exception
 import re
-import threading
 from datetime import datetime
 
 # Set the filename and open the file
@@ -25,8 +24,8 @@ while 1:
     try:
         where = file.tell()
         line = file.readline()
-        #print(line)
-        #print("Keshav")
+        today = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        print(today,"-",line[:120])
         if not line:
             time.sleep(0.01)
             file.seek(where)
@@ -40,7 +39,7 @@ while 1:
                 index = index+len(str_to_find)
                 index1 = line.find("-", index)
                 exception = line[index:index1]
-                desc = line[index1+2:]
+                desc = line[index1+1:]
                 flag=False
                 exceptions_list=set()
                 if(checkException(exception)):
@@ -60,7 +59,7 @@ while 1:
                     today = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
                     print(today, "- Exception -", exception)
                     #print("DESC -", desc)
-                    threading.Thread(target=log_exception.createCard, args=(program_name, exception, desc ,exceptions_list)).start()
+                    log_exception.createCard(program_name, exception, desc ,exceptions_list)
     except Exception as e:
         print("try...catch block")
         print(e)

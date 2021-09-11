@@ -2,9 +2,7 @@ import requests
 import json
 # import pprint
 from datetime import date, timedelta
-import threading
 
-lock = threading.Lock()
 # pp = pprint.PrettyPrinter()
 d = ""
 current_date = ""
@@ -157,7 +155,6 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
 
     #print(already_added_cards)
 
-    lock.acquire()
     if exception_name in already_added_cards:
         updateCard(already_added_cards[exception_name])
     else:
@@ -177,8 +174,6 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
             print("Created new Exception Card")
         else:
             print("Error while Creating Card")
-
-    lock.release()
 
 
 def fetchIds():
