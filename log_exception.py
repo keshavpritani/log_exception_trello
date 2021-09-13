@@ -49,6 +49,7 @@ def changeDate():
 
 
 def createNewList():
+    query={}
     global last_week_id
 
     if(last_week_id != ""):
@@ -61,7 +62,6 @@ def createNewList():
         )
         last_week_id = ""
 
-    query={}
     query["name"] = current_date
     query["idBoard"] = board_id
     response = requests.request(
