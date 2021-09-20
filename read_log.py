@@ -25,7 +25,7 @@ while 1:
         where = file.tell()
         line = file.readline()
         today = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(today,"-",line[:120])
+        # print(today,"-",line[:120])
         if not line:
             time.sleep(0.01)
             file.seek(where)
