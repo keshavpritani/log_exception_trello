@@ -156,8 +156,8 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
 
     #print(already_added_cards)
     exception_title = program_name + " - "  + exception_name
-    if exception_name in already_added_cards:
-        updateCard(already_added_cards[exception_name])
+    if exception_title in already_added_cards:
+        updateCard(already_added_cards[exception_title])
     else:
         query={}
         query["name"] = exception_title
