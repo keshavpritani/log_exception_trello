@@ -57,7 +57,7 @@ while 1:
                     desc = desc + line
                 if flag:
                     today = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                    print(today, "- Exception -", exception)
+                    print(today, "-", program_name, "- Exception -", exception)
                     #print("DESC -", desc)
                     log_exception.createCard(program_name, exception, desc ,exceptions_list)
     except Exception as e:
