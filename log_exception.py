@@ -61,6 +61,7 @@ def createNewList():
             params=original_query
         )
         last_week_id = ""
+        del query["value"]
 
     query["name"] = current_date
     query["idBoard"] = board_id
@@ -154,12 +155,12 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
             return
 
     #print(already_added_cards)
-
+    exception_title = program_name + " - "  + exception_name
     if exception_name in already_added_cards:
         updateCard(already_added_cards[exception_name])
     else:
         query={}
-        query["name"] = program_name + " - "  + exception_name
+        query["name"] = exception_title
         query["idList"] = list_id
         query["desc"] = "Count : 1\n" + "Exceptions - " + ", ".join(exceptions_list) + "\n\n"  + card_desc
         query["pos"]="top"
@@ -170,7 +171,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
         )
         #print("after")
         if(200 <= response.status_code < 300):
-            already_added_cards[exception_name] = json.loads(response.text)['id']
+            already_added_cards[exception_title] = json.loads(response.text)['id']
             print("Created new Exception Card")
         else:
             print("Error while Creating Card")
