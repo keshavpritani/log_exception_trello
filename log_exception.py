@@ -164,7 +164,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
         print("Error while Creating Card")
 
 
-def createCardHelper(exception_title, card_desc, exceptions_list, count)
+def createCardHelper(exception_title, card_desc, exceptions_list, count):
     global list_id
     query={}
     query["name"] = exception_title
