@@ -158,7 +158,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
     exception_title = program_name + " - "  + exception_name
     if exception_title in already_added_cards:
         updateCard(already_added_cards[exception_title])
-    else if createCardHelper(exception_title, card_desc, exceptions_list, 1):
+    else if (createCardHelper(exception_title, card_desc, exceptions_list, 1)):
         print("Created new Exception Card")
     else:
         print("Error while Creating Card")
