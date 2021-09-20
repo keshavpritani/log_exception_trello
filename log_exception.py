@@ -158,7 +158,7 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
     exception_title = program_name + " - "  + exception_name
     if exception_title in already_added_cards:
         updateCard(already_added_cards[exception_title])
-    else if (createCardHelper(exception_title, card_desc, exceptions_list, 1)):
+    elif (createCardHelper(exception_title, card_desc, exceptions_list, 1)):
         print("Created new Exception Card")
     else:
         print("Error while Creating Card")
@@ -180,7 +180,7 @@ def createCardHelper(exception_title, card_desc, exceptions_list, count)
     if(200 <= response.status_code < 300):
         already_added_cards[exception_title] = json.loads(response.text)['id']
         return True
-    else if (count <= 4):
+    elif (count <= 4):
         return createCardHelper(exception_title, card_desc[:-len(card_desc)/4], exceptions_list, count + 1)
 
 
