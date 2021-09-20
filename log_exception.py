@@ -170,11 +170,11 @@ def createCard(program_name, exception_name, card_desc, exceptions_list):
             params={**original_query, **query}
         )
         #print("after")
-        if(200 <= response.status_code < 300):
-            already_added_cards[exception_title] = json.loads(response.text)['id']
-            print("Created new Exception Card")
-        else:
-            print("Error while Creating Card")
+        # if(200 <= response.status_code < 300):
+        already_added_cards[exception_title] = json.loads(response.text)['id']
+        print("Created new Exception Card")
+        # else:
+        #     print("Error while Creating Card")
 
 
 def fetchIds():
