@@ -181,7 +181,7 @@ def createCardHelper(exception_title, card_desc, exceptions_list, count):
         already_added_cards[exception_title] = json.loads(response.text)['id']
         return True
     elif (count <= 4):
-        return createCardHelper(exception_title, card_desc[:len(card_desc)//4:-1], exceptions_list, count + 1)
+        return createCardHelper(exception_title, card_desc[:(len(card_desc)//4*3)], exceptions_list, count + 1)
 
 
 def fetchIds():
